@@ -1,5 +1,13 @@
 <template>
   <div>
+    <button
+      class="btn btn-primary m-2"
+      data-bs-toggle="modal"
+      data-bs-target="#addTask"
+    >
+      Add
+    </button>
+
     <div
       class="d-flex justify-content-center"
       v-for="(task, huy) in tasks"
@@ -15,7 +23,7 @@
             <button
               class="btn btn-primary m-2"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#editTask"
               @click="currentTask = task"
             >
               <svg
@@ -31,24 +39,21 @@
                 />
               </svg>
             </button>
-            <button class="btn btn-primary m-2">Add</button>
           </div>
         </div>
       </div>
-      <!-- Modal -->
+      <!-- Modal editTask -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="editTask"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="editTaskLabel"
         aria-hidden="true"
       >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Change description
-              </h5>
+              <h5 class="modal-title" id="editTaskLabel">Change description</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -59,7 +64,8 @@
             <textarea
               v-if="currentTask"
               class="modal-body form-control"
-              style="height: 150px"
+              cols="30"
+              rows="5"
               v-model="currentTask.description"
             ></textarea>
             <div class="modal-footer">
@@ -78,6 +84,48 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal addTask -->
+      <div
+        class="modal fade"
+        id="addTask"
+        tabindex="-1"
+        aria-labelledby="addTaskLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addTaskLabel">Add New Task</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <input class="form-control" type="text" v-model="form.title" />
+            <textarea
+              class="form-control"
+              cols="30"
+              rows="5"
+              v-model="form.description"
+            ></textarea>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" @click="addTask">
+                Add Task
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +136,10 @@ export default {
     return {
       tasks: [],
       currentTask: null,
+      form: {
+        title: null,
+        description: null,
+      },
     };
   },
 
@@ -100,7 +152,24 @@ export default {
     async deleteTask(id) {
       await this.$axios.$delete("http://localhost/api/tasks/" + id);
 
-      this.tasks = this.tasks.filter(task => task.id !== id);
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+    },
+
+    async addTask() {
+      this.$axios
+        .$post("http://localhost/api/tasks", this.form)
+        .then((response) => {
+          console.log(response);
+          this.tasks = [
+            {
+              title: response.title,
+              description: response.description,
+            },
+            ...this.tasks,
+          ];
+        });
+        this.form.title = '';
+        this.form.description = '';
     },
   },
 };
