@@ -9,11 +9,7 @@
         <div class="card-body">
           <p class="card-text">{{ task.title }}</p>
           <div class="d-flex flex-row">
-            <button
-              class="btn btn-primary m-2"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
+            <button class="btn btn-primary m-2" @click="deleteTask(task.id)">
               Delete
             </button>
             <button
@@ -98,6 +94,14 @@ export default {
   async mounted() {
     const tasks = await this.$axios.$get("http://localhost/api/tasks");
     this.tasks = tasks;
+  },
+
+  methods: {
+    async deleteTask(id) {
+      await this.$axios.$delete("http://localhost/api/tasks/" + id);
+
+      this.tasks = this.tasks.filter(task => task.id !== id);
+    },
   },
 };
 </script>
