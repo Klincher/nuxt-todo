@@ -1,12 +1,26 @@
 <template>
   <div>
-    <button
-      class="btn btn-primary m-2"
-      data-bs-toggle="modal"
-      data-bs-target="#addTask"
-    >
-      Add
-    </button>
+    <!-- <div>
+      <div> -->
+    <div class="d-flex justify-content-center">
+      <div class="card">
+        <div class="card-body">
+          <input class="form-control" v-model="form.title" type="text" placeholder="Add New Task" />
+          <br />
+          <textarea
+            class="form-control"
+            v-model="form.description"
+            placeholder="Add New Description"
+            cols="30"
+            rows="3"
+          ></textarea>
+          <br />
+          <button class="btn btn-primary" @click="addTask">Add Task</button>
+        </div>
+      </div>
+    </div>
+    <!-- </div>
+    </div> -->
 
     <div
       class="d-flex justify-content-center"
@@ -65,7 +79,7 @@
               v-if="currentTask"
               class="modal-body form-control"
               cols="30"
-              rows="5"
+              rows="3"
               v-model="currentTask.description"
             ></textarea>
             <div class="modal-footer">
@@ -79,48 +93,6 @@
               </button>
               <button type="button" class="btn btn-primary">
                 Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal addTask -->
-      <div
-        class="modal fade"
-        id="addTask"
-        tabindex="-1"
-        aria-labelledby="addTaskLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addTaskLabel">Add New Task</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <input class="form-control" type="text" v-model="form.title" />
-            <textarea
-              class="form-control"
-              cols="30"
-              rows="5"
-              v-model="form.description"
-            ></textarea>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary" @click="addTask">
-                Add Task
               </button>
             </div>
           </div>
@@ -168,8 +140,8 @@ export default {
             ...this.tasks,
           ];
         });
-        this.form.title = '';
-        this.form.description = '';
+      this.form.title = "";
+      this.form.description = "";
     },
   },
 };
