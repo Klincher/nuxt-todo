@@ -1,11 +1,15 @@
 <template>
   <div>
-    <!-- <div>
-      <div> -->
+    <!-- add New Task -->
     <div class="d-flex justify-content-center">
       <div class="card">
         <div class="card-body">
-          <input class="form-control" v-model="form.title" type="text" placeholder="Add New Task" />
+          <input
+            class="form-control"
+            v-model="form.title"
+            type="text"
+            placeholder="Add New Task"
+          />
           <br />
           <textarea
             class="form-control"
@@ -19,13 +23,11 @@
         </div>
       </div>
     </div>
-    <!-- </div>
-    </div> -->
 
     <div
       class="d-flex justify-content-center"
-      v-for="(task, huy) in tasks"
-      :key="huy"
+      v-for="(task, t) in tasks"
+      :key="t"
     >
       <div class="card m-2" style="width: 18rem">
         <div class="card-body">
@@ -56,6 +58,7 @@
           </div>
         </div>
       </div>
+
       <!-- Modal editTask -->
       <div
         class="modal fade"
